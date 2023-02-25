@@ -99,7 +99,6 @@ app.post('/run-scala-code', (req, res) => {
 
 
   // Al llamar al botón submit, limpiamos el array messagesTimestamp y bloqueamos recepcion de mensajes
-  blockConsumer = true; // no almacenamos en array mas mensajes del topic
   messagesTimestamp = [];
 
   // Obtenemos variables del dashboard
