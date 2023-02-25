@@ -11,14 +11,14 @@ app.use(cors());
 app.use(bodyParser.json());
 
 
-// messages_in
+// messages_out_no_memory
 let newMessage = '';
-let messages = []; //array con los ultimos 5 mensajes diferentes
+let messages = []; 
 
 
 // messages_from_timestamp_out
 let newMessageTimestamp = '';
-let messagesTimestamp = []; //array con los ultimos 5 mensajes diferentes
+let messagesTimestamp = []; 
 
 const Consumer = kafka.Consumer;
 let client = new kafka.KafkaClient();
@@ -35,13 +35,8 @@ let consumerTimestamp = new Consumer(
 );
 
 
-// Listener de errores para el consumidor consumerTimestamp
-consumerTimestamp.on('error', function (error) { 
-  console.error(error); 
-});
 
-
-const consumer = new Consumer(client2, [{ topic: 'messages_in', partition: 0 }], { 
+const consumer = new Consumer(client2, [{ topic: 'messages_out_no_memory', partition: 0, offset: 0}], { 
   autoCommit: true
 }); 
 
@@ -72,43 +67,19 @@ function createNewConsumer() {
 
     console.log("termina timeout y nuevo consumer creado, permitimos la recepcion de mensajes al array")
 
-
-
   }, 7000);
 }
 
-/*
-consumerTimestamp.on('message', message => {
-  if (blockConsumer == false){
-    if(message.topic === "messages_from_timestamp_out"){
-      if (newMessageTimestamp !== message.value) {
-        newMessageTimestamp = message.value;
-        messagesTimestamp.unshift(newMessageTimestamp);
-      }
-    }
-    console.log(messagesTimestamp.length, "messages_timestamp");
-  }
-});
-
-*/
-
-
-consumerTimestamp.on('error', (err) => {
-  console.error('Error en consumerTimestamp:', err);
-});
-
-
-
 consumer.on('message', message => {
 
-  if (message.topic === "messages_in"){
+  if (message.topic === "messages_out_no_memory"){
     if (newMessage !== message.value){
       newMessage = message.value;
       // Añadir el nuevo mensaje al principio del array
       messages.unshift(newMessage);
     }
   }
-  //console.log(messages, "messages_in");
+  //console.log(messages, "messages_out_no_memory");
 
 });
 
