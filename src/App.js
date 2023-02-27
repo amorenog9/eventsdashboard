@@ -120,14 +120,26 @@ function App() {
 
   // Envio de la fecha
   const [selectedDate, setSelectedDate] = useState(new Date());
+  // Envio del ID
+  const [selectedID, setSelectedID] = useState("");
+  const [selectedIDSend, setSelectedIDSend] = useState("no-id");
+
 
   // Bloqueo del botón
 
   const [buttonDisabled, setButtonDisabled] = useState(false);
 
 
-
-
+  const handleChange = (event) => {
+    const inputValue = event.target.value.trim(); // elimina espacios en blanco
+    if (inputValue === "") {
+      setSelectedIDSend("no-id")
+    }
+    else {
+      setSelectedIDSend(inputValue);
+    }
+    setSelectedID(inputValue);
+  }
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -168,6 +180,8 @@ function App() {
     var resultDay = formattedDate.split(',')[1];
     console.log(resultDate);
     console.log(resultDay);
+    console.log(selectedIDSend);
+
 
     try {
       const response = await fetch('http://localhost:3001/run-scala-code', {
@@ -175,7 +189,7 @@ function App() {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ resultDate, resultDay })
+        body: JSON.stringify({ resultDate, resultDay, selectedIDSend })
       });
       const result = await response.json();
       console.log(result);
@@ -193,15 +207,26 @@ function App() {
 
       <div>
         <form onSubmit={handleSubmit}>
+          <label style={{ fontSize: 'small' }}>Selecciona la fecha a filtrar:</label>
           <DateTimePicker
             value={selectedDate}
             onChange={setSelectedDate}
           />
+          <label style={{ fontSize: 'small' }}>Selecciona el ID: </label>
+          <br />
+          <input
+            type="text"
+            id="text-input"
+            name="text-input"
+            value={selectedID}
+            onChange={handleChange}
+          />
+
           <button
             type="submit"
             disabled={buttonDisabled}
           >
-            {buttonDisabled ? 'Submit' : 'Submit'}
+            {buttonDisabled ? 'Submitting...' : 'Submit'}
           </button>
         </form>
       </div>

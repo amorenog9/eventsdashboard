@@ -13,12 +13,12 @@ app.use(bodyParser.json());
 
 // messages_out_no_memory
 let newMessage = '';
-let messages = []; 
+let messages = [];
 
 
 // messages_from_timestamp_out
 let newMessageTimestamp = '';
-let messagesTimestamp = []; 
+let messagesTimestamp = [];
 
 const Consumer = kafka.Consumer;
 let client = new kafka.KafkaClient();
@@ -36,13 +36,13 @@ let consumerTimestamp = new Consumer(
 
 
 
-const consumer = new Consumer(client2, [{ topic: 'messages_out_no_memory', partition: 0, offset: 0}], { 
+const consumer = new Consumer(client2, [{ topic: 'messages_out_no_memory', partition: 0, offset: 0 }], {
   autoCommit: true
-}); 
+});
 
 
 let counterExecutions = 0; // cuenta el numero de veces que el usuario busca por un timestamp. Se utiliza para ejecutar kill $sparkTimestamp sin que provoque errores
-                           // para que no provoque errores, debe ejecutarse unicamente si existe un proceso PID
+// para que no provoque errores, debe ejecutarse unicamente si existe un proceso PID
 
 
 
@@ -59,8 +59,8 @@ function createNewConsumer() {
 
     consumerTimestamp.on('message', message => {
       if (message.topic === "messages_from_timestamp_out") {
-          newMessageTimestamp = message.value;
-          messagesTimestamp.unshift(newMessageTimestamp);
+        newMessageTimestamp = message.value;
+        messagesTimestamp.unshift(newMessageTimestamp);
       }
       console.log(messagesTimestamp.length, "messages_timestamp");
     });
@@ -72,8 +72,8 @@ function createNewConsumer() {
 
 consumer.on('message', message => {
 
-  if (message.topic === "messages_out_no_memory"){
-    if (newMessage !== message.value){
+  if (message.topic === "messages_out_no_memory") {
+    if (newMessage !== message.value) {
       newMessage = message.value;
       // Añadir el nuevo mensaje al principio del array
       messages.unshift(newMessage);
@@ -102,27 +102,27 @@ app.post('/run-scala-code', (req, res) => {
   messagesTimestamp = [];
 
   // Obtenemos variables del dashboard
-  const { resultDate, resultDay } = req.body;
-  console.log(resultDate, resultDay);
+  const { resultDate, resultDay, selectedIDSend } = req.body;
+  console.log(resultDate, resultDay, selectedIDSend);
 
-  const routeScript= `/home/alex/Escritorio/TFM/dashboard/scripts`;
+  const routeScript = `/home/alex/Escritorio/TFM/dashboard/scripts`;
   const routeToSpark = `/home/alex/Documentos/tools/spark-2.4.8-bin-hadoop2.7/bin`;
   const routeLibrary = `/home/alex/Escritorio/TFM/bibliotecas_jars`;
-  const routeToJar =`/home/alex/Escritorio/TFM/flinkTimestampExec/target/scala-2.11`;
-  const args = [resultDay, resultDate];
+  const routeToJar = `/home/alex/Escritorio/TFM/flinkTimestampExec/target/scala-2.11`;
+  const args = [resultDay, resultDate, selectedIDSend];
   const commandExec = `./spark-submit --class es.upm.dit.SparkReaderTable --master local[*] --jars ${routeLibrary}/delta-core_2.11-0.6.1.jar ${routeToJar}/timestampProcessing-assembly-0.1.jar ${args.join(' ')}`;
 
 
   console.log(commandExec);
   console.log(counterExecutions);
 
-  if(counterExecutions > 0) { //si existe un proceso spark-submit previo
+  if (counterExecutions > 0) { //si existe un proceso spark-submit previo
     counterExecutions = counterExecutions + 1;
 
     try {
       console.log(args.join(' '));
       const resultScript = execSync(`cd ${routeScript} && ./script.sh`).toString(); //tomamos PID y eliminamos proceso spark-submit previo
-    
+
       // Ejecucion de manera asincrona 
       const result = exec(`cd ${routeToSpark} && ${commandExec}`).toString();
 
@@ -133,15 +133,15 @@ app.post('/run-scala-code', (req, res) => {
     } catch (error) {
       res.status(500).send({ error: error.message });
     }
-    
+
   }
-  
+
   else { // si no existe un proceso spark-submit previo
     counterExecutions = counterExecutions + 1;
 
     try {
       console.log(args.join(' '));
-    
+
       // Ejecucion de manera asincrona (espera a que termine para continuar)
       const result = exec(`cd ${routeToSpark} && ${commandExec}`).toString();
 
@@ -154,7 +154,7 @@ app.post('/run-scala-code', (req, res) => {
       res.status(500).send({ error: error.message });
     }
   }
-  
+
 });
 
 app.listen(3001, () => {
