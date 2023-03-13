@@ -2,13 +2,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-import redIcon from '../images/gpsIcon.png';
+import redIcon from '../images/gpsIcon.png'
 
 function MapRouteID({ props }) {
   const { coordinatesTimestamp } = props;
 
   const mapRef = useRef(null);
   const map = useRef(null);
+  const polyline = useRef(null);
   const [showRoute, setShowRoute] = useState(false);
   const [showMarkers, setShowMarkers] = useState(false);
 
@@ -35,8 +36,10 @@ function MapRouteID({ props }) {
     });
 
     // Agregar los marcadores de los nuevos puntos
-    coordinatesTimestamp.forEach((coordenada, index) => {
-      const offset = index * 0.0001; // pequeño offset para evitar superposiciones
+    for (let i = coordinatesTimestamp.length - 1; i >= 0; i--) {
+      const coordenada = coordinatesTimestamp[i];
+      const index = coordinatesTimestamp.length - i;
+      const offset = index * 0.0001; // offset para evitar superposiciones
       const marker = L.marker([coordenada[0] + offset, coordenada[1] + offset], {
         icon: L.icon({
           iconUrl: redIcon,
@@ -47,13 +50,13 @@ function MapRouteID({ props }) {
       });
       marker.addTo(map.current);
       if (showMarkers) {
-        marker.bindTooltip(`${index+1}`, {
+        marker.bindTooltip(`${index}`, {
           permanent: true,
           direction: 'center',
           className: 'map-label'
         });
       }
-    });
+    }
 
     // Agregar la línea si el estado showRoute es true
     if (showRoute) {
@@ -61,11 +64,18 @@ function MapRouteID({ props }) {
       const lineCoords = coordinatesTimestamp.map(coordenada => [coordenada[0], coordenada[1]]);
 
       // Crear polilínea y agregarla al mapa
-      L.polyline(lineCoords, {
+      if (polyline.current) {
+        map.current.removeLayer(polyline.current); // Eliminar la polilínea anterior si ya existe
+      }
+      polyline.current = L.polyline(lineCoords, {
         color: 'red',
         weight: 3,
         opacity: 0.5
       }).addTo(map.current);
+    } else {
+      if (polyline.current) {
+        map.current.removeLayer(polyline.current); // Eliminar la polilínea si el estado showRoute es false
+      }
     }
 
   }, [coordinatesTimestamp, showRoute, showMarkers]);
@@ -82,7 +92,9 @@ function MapRouteID({ props }) {
     <div>
       <div ref={mapRef} style={{ width: '100%', height: '500px' }} />
       <button onClick={handleToggleRoute}>{showRoute ? 'Ocultar ruta' : 'Mostrar ruta'}</button>
-      <button onClick={handleToggleMarkers}>{showMarkers ? 'Ocultar orden' : 'Mostrar orden'}</button>
+      <button onClick={handleToggleMarkers}>
+        {showMarkers ? 'Ocultar orden' : 'Mostrar orden'}
+      </button>
     </div>
   );
 }
