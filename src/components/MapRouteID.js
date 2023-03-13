@@ -17,7 +17,7 @@ function MapRouteID({ props }) {
     if (!map.current) {
       // Si el mapa no se ha inicializado, inicializarlo
       map.current = L.map(mapRef.current, {
-        center: [51.5124, 7.4632], // centro del mapa
+        center: [50.3, 22.5], // centro del mapa
         zoom: 4, // nivel de zoom inicial
       });
 
