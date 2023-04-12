@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sparkTimestamp=$(ps aux | grep spark-submit | grep -oP ^.*timestampProcessing-assembly-0.1.jar.*$ | grep -oP '^\S+\s+\K\d+')
+sparkTimestamp=$(ps aux | grep spark-submit | grep -oP ^.*streamingProject-assembly-0.1.jar.*$ | grep -oP '^\S+\s+\K\d+')
 
 if [[ -n "$sparkTimestamp" ]]; then
   kill $sparkTimestamp
