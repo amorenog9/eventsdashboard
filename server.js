@@ -111,7 +111,8 @@ app.post('/run-scala-code', (req, res) => {
   const args = [resultDay, resultDate, selectedIDSend];
   const commandExec = `curl http://localhost:5006/spark-submit/${resultDay}/${resultDate}/${selectedIDSend}`;
 
-  //console.log(commandExec);
+
+  console.log(commandExec);
   console.log(counterExecutions);
 
   if (counterExecutions > 0) { //si existe un proceso spark-submit previo
