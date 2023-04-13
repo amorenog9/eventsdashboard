@@ -106,12 +106,12 @@ app.post('/run-scala-code', (req, res) => {
   console.log(resultDate, resultDay, selectedIDSend);
 
   const routeScript = `/app/dashboard/scripts`;
-  const routeLibrary = `/app/streamingProject/bibliotecas_jars`;
-  const routeToJar = `/app/streamingProject/target/scala-2.11`;
+  //const routeLibrary = `/app/streamingProject/bibliotecas_jars`;
+  //const routeToJar = `/app/streamingProject/target/scala-2.11`;
   const args = [resultDay, resultDate, selectedIDSend];
-  const commandExec = `docker exec -it sparkreader ./app/spark-2.4.8-bin-hadoop2.7/bin/spark-submit --class es.upm.dit.SparkReaderTable --master local[*] --jars ${routeLibrary}/delta-core_2.11-0.6.1.jar ${routeToJar}/streamingProject-assembly-0.1.jar ${args.join(' ')}`;
+  const commandExec = `curl http://localhost:5006/spark-submit/${resultDay}/${resultDate}/${selectedIDSend}`;
 
-  console.log(commandExec);
+  //console.log(commandExec);
   console.log(counterExecutions);
 
   if (counterExecutions > 0) { //si existe un proceso spark-submit previo
