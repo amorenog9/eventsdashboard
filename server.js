@@ -108,8 +108,10 @@ app.post('/run-scala-code', (req, res) => {
   const routeScript = `/app/dashboard/scripts`;
   //const routeLibrary = `/app/streamingProject/bibliotecas_jars`;
   //const routeToJar = `/app/streamingProject/target/scala-2.11`;
+  var resultDateModified = resultDate.replace('/', '-'); // facilitamos el envio del parametro ens la ruta con - en vez de /
+  var resultDayModified = resultDay.trim()
   const args = [resultDay, resultDate, selectedIDSend];
-  const commandExec = `curl http://localhost:5006/spark-submit/${resultDay}/${resultDate}/${selectedIDSend}`;
+  const commandExec = `curl http://localhost:5006/spark-submit/${resultDayModified}/${resultDateModified}/${selectedIDSend}`;
 
 
   console.log(commandExec);
