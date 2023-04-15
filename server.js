@@ -105,7 +105,7 @@ app.post('/run-scala-code', (req, res) => {
   const { resultDate, resultDay, selectedIDSend } = req.body;
   console.log(resultDate, resultDay, selectedIDSend);
 
-  const routeScript = `/app/dashboard/scripts`;
+  const routeScript = `/app/eventsdashboard/scripts`;
   //const routeLibrary = `/app/streamingProject/bibliotecas_jars`;
   //const routeToJar = `/app/streamingProject/target/scala-2.11`;
   var resultDateModified = resultDate.replace(/\//g, '-');// facilitamos el envio del parametro ens la ruta con - en vez de /
