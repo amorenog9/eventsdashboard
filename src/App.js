@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link, useNavigate} from "react-router-dom";
 import { FiMenu, FiChevronDown } from "react-icons/fi";
 import Home from './components/Home'
 import MapRouteID from "./components/MapRouteID";
@@ -13,6 +13,8 @@ function App() {
 
   // Menu desplegable
   const [showMenu, setShowMenu] = useState(true);
+
+
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
@@ -45,9 +47,10 @@ function App() {
     };
   }, []);
 
-
+  
   return (
     <Router>
+
       <div>
         <nav>
           <div className="menu-icon" onClick={toggleMenu}>
@@ -67,8 +70,7 @@ function App() {
 
         <Routes>
           <Route exact path="/" element={<Home props={{messages, messagesTimestamp}}/>} />
-          <Route exact path="/mapID" element={<MapRouteID props={{coordinatesTimestamp}} />
-          } />
+          <Route exact path="/mapID" element={<MapRouteID props={{coordinatesTimestamp, messagesTimestamp}}/>} />
         </Routes>
       </div>
     </Router>

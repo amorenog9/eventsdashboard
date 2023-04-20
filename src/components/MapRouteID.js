@@ -3,9 +3,10 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 import redIcon from '../images/gpsIcon.png'
+import TableID from './TableID';
 
 function MapRouteID({ props }) {
-  const { coordinatesTimestamp } = props;
+  const { coordinatesTimestamp, messagesTimestamp } = props;
 
   const mapRef = useRef(null);
   const map = useRef(null);
@@ -103,7 +104,23 @@ function MapRouteID({ props }) {
       <button onClick={handleToggleMarkers}>
         {showMarkers ? 'Ocultar orden' : 'Mostrar orden'}
       </button>
+
+
+    <h1 style={{textAlign: "center"}}>Streaming de eventos filtrados por ID</h1>
+      <div class="tablas" style={{padding: "20px 0"}}>
+        <TableID props={{messagesTimestamp}}/>
+        <TableID props={{messagesTimestamp}}/>
+        <TableID props={{messagesTimestamp}}/>
+        <TableID props={{messagesTimestamp}}/>
+        <TableID props={{messagesTimestamp}}/>
+        <TableID props={{messagesTimestamp}}/>
+        <TableID props={{messagesTimestamp}}/>
+        <TableID props={{messagesTimestamp}}/>
     </div>
+    
+    </div>
+
+
   );
 }
 
