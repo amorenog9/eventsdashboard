@@ -374,9 +374,8 @@ function Home({ props }) {
           />
 
         </Paper>
+      
       </div>
-
-
 
     </div>
   );

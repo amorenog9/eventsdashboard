@@ -69,8 +69,8 @@ function App() {
         </nav>
 
         <Routes>
-          <Route exact path="/" element={<Home props={{messages, messagesTimestamp}}/>} />
-          <Route exact path="/mapID" element={<MapRouteID props={{coordinatesTimestamp, messagesTimestamp}}/>} />
+          <Route exact path="/" element={<Home props={{messages: messages, messagesTimestamp: messagesTimestamp}}/>} />
+          <Route exact path="/mapID" element={<MapRouteID props={{coordinatesTimestamp: coordinatesTimestamp, messagesTimestamp: messagesTimestamp}}/>} />
         </Routes>
       </div>
     </Router>

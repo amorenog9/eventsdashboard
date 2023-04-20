@@ -108,14 +108,14 @@ function MapRouteID({ props }) {
 
     <h1 style={{textAlign: "center"}}>Streaming de eventos filtrados por ID</h1>
       <div class="tablas" style={{padding: "20px 0"}}>
-        <TableID props={{messagesTimestamp}}/>
-        <TableID props={{messagesTimestamp}}/>
-        <TableID props={{messagesTimestamp}}/>
-        <TableID props={{messagesTimestamp}}/>
-        <TableID props={{messagesTimestamp}}/>
-        <TableID props={{messagesTimestamp}}/>
-        <TableID props={{messagesTimestamp}}/>
-        <TableID props={{messagesTimestamp}}/>
+        <TableID props={{messages: messagesTimestamp}}/>
+        <TableID props={{messages: messagesTimestamp}}/>
+        <TableID props={{messages: messagesTimestamp}}/>
+        <TableID props={{messages: messagesTimestamp}}/>
+        <TableID props={{messages: messagesTimestamp}}/>
+        <TableID props={{messages: messagesTimestamp}}/>
+        <TableID props={{messages: messagesTimestamp}}/>
+        <TableID props={{messages: messagesTimestamp}}/>
     </div>
     
     </div>
