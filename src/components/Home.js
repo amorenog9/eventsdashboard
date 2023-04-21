@@ -127,31 +127,86 @@ function Home({ props }) {
 
 
   // Bloqueo del botón
-
   const [buttonDisabled, setButtonDisabled] = useState(false);
 
 
-  const handleChange = (event) => {
-    const inputValue = event.target.value.trim(); // elimina espacios en blanco
-    if (inputValue === "") {
-      setSelectedIDSend("no-id")
-    }
-    else {
-      setSelectedIDSend(inputValue);
-    }
-    setSelectedID(inputValue);
+  // Seleccion de numero de inputs
+  const [numIds, setnumIds] = useState(0);
+  const [textInputs, setTextInputs] = useState([]);
+  const [hasDuplicateValues, setHasDuplicateValues] = useState(false);
+
+
+
+
+  const handleNumIds = (event) => {
+    const num = parseInt(event.target.value);
+    setnumIds(num);
+    setTextInputs([]);
   }
+
+
+  const handleTextChange = (event, index) => {
+    const newTextInputValue = event.target.value;
+
+    if (textInputs.includes(newTextInputValue)) {
+      alert("Por favor, escriba un valor diferente a los introducidos.");
+      setHasDuplicateValues(true); // no permitimos guardar si hay un valor igual
+      return;
+    }
+ 
+    setTextInputs((prevTextInputs) => { //
+      const newTextInputArray = [...prevTextInputs]; 
+      newTextInputArray[index] = newTextInputValue; // almacenamos el nuevo valor del campo de texto introducido
+      return newTextInputArray;
+    });
+
+    setHasDuplicateValues(false); // permitimos que se visualize el boton de guardar
+
+  }
+
+  const renderInputs = () => {
+    const inputs = [];
+    for (let i = 0; i < numIds; i++) {
+      inputs.push(
+        <input type="text" key={i} onChange={(event) => handleTextChange(event, i)} />
+      );
+    }
+    return inputs;
+  }
+
+  const handleClean = () => {
+    setnumIds(0)
+    setTextInputs([])
+    setHasDuplicateValues(false);  
+  }
+
 
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    // Comprobar si hay algún valor en el array textInputs es undefined o solo tiene espacios en blanco  
+    var hasEmptyValue = false;
+    for (let i = 0; i < textInputs.length; i++) {
+      if (typeof textInputs[i] === 'undefined' || textInputs[i].trim() === '') {
+        hasEmptyValue = true;
+        break;
+      }
+    }
+    if (hasEmptyValue) {
+      alert('No se permiten valores vacíos o que contengan solo espacios en blanco');
+      return;
+    }
 
-    setButtonDisabled(true);
+
+
+
+
+   // setButtonDisabled(true);
 
     // Habilitar el botón después de 30 segundos
-    setTimeout(() => {
-      setButtonDisabled(false);
-    }, 30000);
+    //setTimeout(() => {
+    //  setButtonDisabled(false);
+   // }, 30000);
 
 
     var date = new Date(selectedDate);
@@ -162,10 +217,17 @@ function Home({ props }) {
 
     var resultDate = formattedDate.split(',')[0];
     var resultDay = formattedDate.split(',')[1];
+
+    //console.log(selectedIDSend);
+    var listIds = textInputs; // 
+    if (listIds.length === 0){
+      listIds = ["no-id"]
+    }
+
+
     console.log(resultDate);
     console.log(resultDay);
-    console.log(selectedIDSend);
-
+    console.log(listIds)
 
     try {
       const response = await fetch('http://localhost:3001/run-scala-code', {
@@ -173,7 +235,7 @@ function Home({ props }) {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ resultDate, resultDay, selectedIDSend })
+        body: JSON.stringify({ resultDate, resultDay, listIds })
       });
       const result = await response.json();
       console.log(result);
@@ -186,7 +248,7 @@ function Home({ props }) {
 
   return (
     <div>
-      <h1> Tablas stream kafka</h1>
+      <h1 style={{textAlign: "center"}}> Tablas stream kafka</h1>
 
 
       <div>
@@ -198,22 +260,26 @@ function Home({ props }) {
           />
           <label style={{ fontSize: 'small' }}>Selecciona el ID: </label>
           <br />
-          <input
-            type="text"
-            id="text-input"
-            name="text-input"
-            value={selectedID}
-            onChange={handleChange}
-          />
 
-          <button
-            type="submit"
-            disabled={buttonDisabled}
-          >
-            {buttonDisabled ? 'Submitting...' : 'Submit'}
-          </button>
+          <label>
+            Número de ids que se van a filtrar:
+            <input type="number" min="0" onChange={handleNumIds} />
+          </label>
+
+          <div>
+            {renderInputs()}
+            <button type="submit" disabled={hasDuplicateValues || buttonDisabled}>
+              {buttonDisabled ? 'Submitting...' : 'Submit'}
+            </button>
+          </div>
+
         </form>
       </div>
+      <button onClick={handleClean}>Limpiar</button>
+
+
+
+
       <div>
         <Paper sx={{ minWidth: 500, float: 'left', width: '47%', marginLeft: '20px' }}>
           <p style={{ textAlign: 'center' }}>Eventos en streaming</p>

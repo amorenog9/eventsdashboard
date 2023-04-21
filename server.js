@@ -102,17 +102,17 @@ app.post('/run-scala-code', (req, res) => {
   messagesTimestamp = [];
 
   // Obtenemos variables del dashboard
-  const { resultDate, resultDay, selectedIDSend } = req.body;
-  console.log(resultDate, resultDay, selectedIDSend);
+  const { resultDate, resultDay, listIds } = req.body;
+  console.log(resultDate, resultDay, listIds);
 
   const routeScript = `/app/eventsdashboard/scripts`;
   //const routeLibrary = `/app/streamingProject/bibliotecas_jars`;
   //const routeToJar = `/app/streamingProject/target/scala-2.11`;
   var resultDateModified = resultDate.replace(/\//g, '-');// facilitamos el envio del parametro ens la ruta con - en vez de /
   var resultDayModified = resultDay.trim()
-  console.log(resultDateModified)
-  const args = [resultDay, resultDate, selectedIDSend];
-  const commandExec = `curl http://localhost:5006/spark-submit/${resultDayModified}/${resultDateModified}/${selectedIDSend}`;
+
+  const args = [resultDay, resultDate, listIds];
+  const commandExec = `curl http://localhost:5006/spark-submit/${resultDayModified}/${resultDateModified}/${listIds}`;
 
 
   console.log(commandExec);

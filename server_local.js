@@ -102,14 +102,14 @@ app.post('/run-scala-code', (req, res) => {
   messagesTimestamp = [];
 
   // Obtenemos variables del dashboard
-  const { resultDate, resultDay, selectedIDSend } = req.body;
-  console.log(resultDate, resultDay, selectedIDSend);
+  const { resultDate, resultDay, listIds } = req.body;
+  console.log(resultDate, resultDay, listIds);
 
   const routeScript = `/home/alex/Escritorio/TFM/dashboard/scripts`;
   const routeToSpark = `/home/alex/Documentos/tools/spark-2.4.8-bin-hadoop2.7/bin`;
   const routeLibrary = `/home/alex/Escritorio/TFM/streamingProject/bibliotecas_jars`;
   const routeToJar = `/home/alex/Escritorio/TFM/streamingProject/target/scala-2.11`;
-  const args = [resultDay, resultDate, selectedIDSend];
+  const args = [resultDay, resultDate, listIds];
   const commandExec = `./spark-submit --class es.upm.dit.SparkReaderTable --master local[*] --jars ${routeLibrary}/delta-core_2.11-0.6.1.jar ${routeToJar}/streamingProject-assembly-0.1.jar ${args.join(' ')}`;
 
 
