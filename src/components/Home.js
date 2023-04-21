@@ -183,6 +183,7 @@ function Home({ props }) {
 
 
   const handleSubmit = async (event) => {
+
     event.preventDefault();
     // Comprobar si hay algún valor en el array textInputs es undefined o solo tiene espacios en blanco  
     var hasEmptyValue = false;
@@ -197,20 +198,14 @@ function Home({ props }) {
       return;
     }
 
-
-
-
-
-   // setButtonDisabled(true);
+    setButtonDisabled(true);
 
     // Habilitar el botón después de 30 segundos
-    //setTimeout(() => {
-    //  setButtonDisabled(false);
-   // }, 30000);
-
+    setTimeout(() => {
+      setButtonDisabled(false);
+    }, 30000);
 
     var date = new Date(selectedDate);
-
     var options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };
     var formattedDate = date.toLocaleString("es-ES", options);
     console.log(formattedDate);
