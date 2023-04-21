@@ -13,6 +13,8 @@ function MapRouteID({ props }) {
   const polyline = useRef(null);
   const [showRoute, setShowRoute] = useState(false);
   const [showMarkers, setShowMarkers] = useState(false);
+  const [messagesArray, setMessagesArray] = useState([]); // messages_timestamp_out
+
 
   useEffect(() => {
     // Fase de Inicializacion
@@ -97,26 +99,66 @@ function MapRouteID({ props }) {
     setShowMarkers(!showMarkers);
   }
 
+
+
+
+
+
+  useEffect(() => { // Use effect para saber cuantos ids hay, para hacer las tablas, y ordenar en cada tabla las diferentes filas de ese ID
+    const objects = messagesTimestamp.map(item => JSON.parse(item));
+
+    // Creamos un objeto para almacenar los valores únicos de los campos id
+    const idValues = {};
+
+    // Recorremos el array para obtener los valores únicos de los campos id
+    for (let i = 0; i < objects.length; i++) {
+      const id = objects[i].id;
+      idValues[id] = true;
+    }
+    console.log(idValues)
+
+    // Obtenemos el número total de campos id diferentes
+    const numIds = Object.keys(idValues).length;
+    console.log(numIds)
+
+
+    let messagesOrderedByID = []
+    // Creamos tantos arrays como campos id diferentes haya
+    for (const id in idValues) {
+      const idArray = [];
+      for (let i = 0; i < objects.length; i++) {
+        if (objects[i].id === id) {
+          idArray.push(objects[i]);
+        }
+      }
+      //console.log(idArray);
+      let idArrayString = idArray.map(item => JSON.stringify(item));
+      messagesOrderedByID.push(idArrayString);
+    }
+    
+    setMessagesArray(messagesOrderedByID);
+
+
+  }, [messagesTimestamp]); // Use effect que saltara con la actualización de estas variables
+
+
   return (
     <div>
       <div ref={mapRef} style={{ width: '100%', height: '500px' }} />
+      
       <button onClick={handleToggleRoute}>{showRoute ? 'Ocultar ruta' : 'Mostrar ruta'}</button>
       <button onClick={handleToggleMarkers}>
         {showMarkers ? 'Ocultar orden' : 'Mostrar orden'}
       </button>
 
 
-    <h1 style={{textAlign: "center"}}>Streaming de eventos filtrados por ID</h1>
+      <h1 style={{textAlign: "center"}}>Streaming de eventos filtrados por ID</h1>
       <div class="tablas" style={{padding: "20px 0"}}>
-        <TableID props={{messages: messagesTimestamp}}/>
-        <TableID props={{messages: messagesTimestamp}}/>
-        <TableID props={{messages: messagesTimestamp}}/>
-        <TableID props={{messages: messagesTimestamp}}/>
-        <TableID props={{messages: messagesTimestamp}}/>
-        <TableID props={{messages: messagesTimestamp}}/>
-        <TableID props={{messages: messagesTimestamp}}/>
-        <TableID props={{messages: messagesTimestamp}}/>
-    </div>
+        {messagesArray.map((array, index) => (
+          <TableID key={index} props={{messages: array}}/>
+        ))}
+
+      </div>
     
     </div>
 

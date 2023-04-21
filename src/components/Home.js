@@ -253,11 +253,10 @@ function Home({ props }) {
             value={selectedDate}
             onChange={setSelectedDate}
           />
-          <label style={{ fontSize: 'small' }}>Selecciona el ID: </label>
+          <label style={{ fontSize: 'small' }}>Número de ids que se van a filtrar:</label>
           <br />
-
           <label>
-            Número de ids que se van a filtrar:
+
             <input type="number" min="0" onChange={handleNumIds} />
           </label>
 
