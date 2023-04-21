@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
@@ -46,7 +46,11 @@ const columns = [
 
 function TableID({ props }) {
 
-  const { messages } = props;
+  const { index, messages, arraySubmits } = props;
+
+  const [localArray, setLocalArray] = useState([]);
+
+
 
 
   //MUI
@@ -94,6 +98,35 @@ function TableID({ props }) {
     let seconds = date.getSeconds();
     return `${day < 10 ? '0' + day : day}-${month < 10 ? '0' + month : month}-${year} ${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
   }
+
+
+  useEffect(() => {     
+    const coordinatesArray= messages.map(message => {
+      const obj = JSON.parse(message); // Deserializamos JSON => Obtenemos objeto JSON
+      const lat = parseFloat(obj.lat);
+      const lng = parseFloat(obj.lng);
+      return [lat, lng]; 
+    });
+
+    const coordinatesArrayWithIndex = [index, ...coordinatesArray];
+
+    setLocalArray(coordinatesArrayWithIndex); // almacenamos array [1, [0.0, 2.0], [2.0, 7.0]] (index y coordendas)
+
+  }, [messages]); // Se actualiza con cada nuevo mensaje del consumer messages_from_timestamp_out
+
+
+
+  function handleClick() {
+    const indexExist = arraySubmits.some((elemento) => {
+      return elemento[0] === index;
+    })
+    if (indexExist) {
+      props.eliminarDatos(index);
+    } else {
+      props.enviarDatos(localArray);
+    }
+  }
+
 
   return (
     <div>
@@ -175,6 +208,8 @@ function TableID({ props }) {
           />
 
         </Paper>
+      
+        <button onClick={handleClick}>Mostrar coordendas</button>
 
     </div>
   );

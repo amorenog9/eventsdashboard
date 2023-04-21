@@ -9,7 +9,6 @@ function App() {
   // Kafka messages
   const [messages, setMessages] = useState([]); // messages_out_no_memory
   const [messagesTimestamp, setMessagesTimestamp] = useState([]); // messages_timestamp_out
-  const [coordinatesTimestamp, setcoordinatesTimestamp] = useState([]); // messages_timestamp_out - Coordenadas geograficas
 
   // Menu desplegable
   const [showMenu, setShowMenu] = useState(true);
@@ -27,17 +26,9 @@ function App() {
       const messages = await response.json(); //respuesta array con valor string con los ultimos 5 elementos actualizados
       const messagesTimestamp = await responseTimestamp.json(); //respuesta array con valor string con los ultimos 5 elementos actualizados
 
-      // A partir de messagesTimestamp, obtenemos el array concreto de las coordenadas geograficas. Se lo pasaremos al componente del mapa.
-      const coordinatesTimestamp = messagesTimestamp.map(message => {
-        const obj = JSON.parse(message); // Deserializamos JSON => Obtenemos objeto JSON
-        const lat = parseFloat(obj.lat);
-        const lng = parseFloat(obj.lng);
-        return [lat, lng]; 
-      });
-      
       setMessages(messages);
       setMessagesTimestamp(messagesTimestamp);
-      setcoordinatesTimestamp(coordinatesTimestamp);
+
     };
 
     const intervalId = setInterval(fetchMessages, 1000); // actualiza cada 1000 milisegundos (1 segundo)
@@ -70,7 +61,7 @@ function App() {
 
         <Routes>
           <Route exact path="/" element={<Home props={{messages: messages, messagesTimestamp: messagesTimestamp}}/>} />
-          <Route exact path="/mapID" element={<MapRouteID props={{coordinatesTimestamp: coordinatesTimestamp, messagesTimestamp: messagesTimestamp}}/>} />
+          <Route exact path="/mapID" element={<MapRouteID props={{messagesTimestamp: messagesTimestamp}}/>} />
         </Routes>
       </div>
     </Router>
