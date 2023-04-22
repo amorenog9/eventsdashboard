@@ -115,29 +115,15 @@ function Home({ props }) {
     let seconds = date.getSeconds();
     return `${day < 10 ? '0' + day : day}-${month < 10 ? '0' + month : month}-${year} ${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
   }
-
-
-
-
-  // Envio de la fecha
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  // Envio del ID
-  const [selectedID, setSelectedID] = useState("");
-  const [selectedIDSend, setSelectedIDSend] = useState("no-id");
-
-
-  // Bloqueo del botón
-  const [buttonDisabled, setButtonDisabled] = useState(false);
-
-
+  
+  const [selectedDate, setSelectedDate] = useState(new Date());// Envio de la fecha
+  const [buttonDisabled, setButtonDisabled] = useState(false);// Bloqueo del botón
   // Seleccion de numero de inputs
   const [numIds, setnumIds] = useState(0);
   const [textInputs, setTextInputs] = useState([]);
   const [hasDuplicateValues, setHasDuplicateValues] = useState(false);
 
-
-
-
+  // Para gestionar el numero de IDs (numero de campos de texto) que va a utilizar el usuario
   const handleNumIds = (event) => {
     const num = parseInt(event.target.value);
     setnumIds(num);
@@ -153,9 +139,9 @@ function Home({ props }) {
       setHasDuplicateValues(true); // no permitimos guardar si hay un valor igual
       return;
     }
- 
+
     setTextInputs((prevTextInputs) => { //
-      const newTextInputArray = [...prevTextInputs]; 
+      const newTextInputArray = [...prevTextInputs];
       newTextInputArray[index] = newTextInputValue; // almacenamos el nuevo valor del campo de texto introducido
       return newTextInputArray;
     });
@@ -164,6 +150,7 @@ function Home({ props }) {
 
   }
 
+  // Introducimos un campo de texto por cada numID que haya introducido el usuario
   const renderInputs = () => {
     const inputs = [];
     for (let i = 0; i < numIds; i++) {
@@ -174,37 +161,39 @@ function Home({ props }) {
     return inputs;
   }
 
+  // Limpieza de parametros introducidos por el usuario
   const handleClean = () => {
     setnumIds(0)
     setTextInputs([])
-    setHasDuplicateValues(false);  
+    setHasDuplicateValues(false);
   }
 
 
-
+  // Envio de datos utilizando el formulario
   const handleSubmit = async (event) => {
-
     event.preventDefault();
+
     // Comprobar si hay algún valor en el array textInputs es undefined o solo tiene espacios en blanco  
     var hasEmptyValue = false;
     for (let i = 0; i < textInputs.length; i++) {
-      if (typeof textInputs[i] === 'undefined' || textInputs[i].trim() === '') {
+      if (typeof textInputs[i] === 'undefined' || textInputs[i].trim() === '') { // si hay algun valor en el array textInputs 'undefined' o '', no enviamos nada
         hasEmptyValue = true;
         break;
       }
     }
+    // Si lo anterior se cumple, mandamos una alerta al usuario para que lo corrija
     if (hasEmptyValue) {
       alert('No se permiten valores vacíos o que contengan solo espacios en blanco');
       return;
     }
 
+    // Habilitar el botón después de 30 segundos (util para la percepción de envío al usuario)
     setButtonDisabled(true);
-
-    // Habilitar el botón después de 30 segundos
     setTimeout(() => {
       setButtonDisabled(false);
     }, 30000);
 
+    // Formateamos fecha y hora y listaIDS para el envío
     var date = new Date(selectedDate);
     var options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };
     var formattedDate = date.toLocaleString("es-ES", options);
@@ -212,18 +201,17 @@ function Home({ props }) {
 
     var resultDate = formattedDate.split(',')[0];
     var resultDay = formattedDate.split(',')[1];
+    var listIds = textInputs;  
 
-    //console.log(selectedIDSend);
-    var listIds = textInputs; // 
-    if (listIds.length === 0){
+    if (listIds.length === 0) {
       listIds = ["no-id"]
     }
-
 
     console.log(resultDate);
     console.log(resultDay);
     console.log(listIds)
 
+    // Envio de los datos del dashboard mediante la url especificada al servidor node
     try {
       const response = await fetch('http://localhost:3001/run-scala-code', {
         method: 'POST',
@@ -243,8 +231,7 @@ function Home({ props }) {
 
   return (
     <div>
-      <h1 style={{textAlign: "center"}}> Tablas stream kafka</h1>
-
+      <h1 style={{ textAlign: "center" }}> Tablas stream kafka</h1>
 
       <div>
         <form onSubmit={handleSubmit}>
@@ -434,7 +421,7 @@ function Home({ props }) {
           />
 
         </Paper>
-      
+
       </div>
 
     </div>
