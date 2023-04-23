@@ -48,10 +48,10 @@ const columns = [
 function TableID({ props }) {
 
   // props del componente padre (maprouteID)
-  const { index, messages, arraySubmits } = props;
+  const { index, messages, arraySubmitsDic, showPoints } = props;
 
   const [localArray, setLocalArray] = useState([]); // Array de coordenadas
-  const [buttonOn, setButtonOn] = useState(false); // estado que nos servirá para saber si hemos iniciado/apagado el botón => Se utilizará para envio actualizado de coordenadas del array al componente padre (MAPROUTEID)
+  const [buttonOn, setButtonOn] = useState(true); // estado que nos servirá para saber si hemos iniciado/apagado el botón => Se utilizará para envio actualizado de coordenadas del array al componente padre (MAPROUTEID)
 
   // MUI
   const [page, setPage] = React.useState(0); // tabla MUI
@@ -99,9 +99,11 @@ function TableID({ props }) {
     return `${day < 10 ? '0' + day : day}-${month < 10 ? '0' + month : month}-${year} ${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
   }
 
+  //messages es messages_timestamp pero para este componente
+
 
   useEffect(() => { //lectura de coordenadas a partir de los mensajes que me llegan del prop  
-    
+
     // Construcción de coordenadas a partir del array
     const coordinatesArray = messages.map(message => {
       const obj = JSON.parse(message); // Deserializamos JSON => Obtenemos objeto JSON
@@ -110,29 +112,29 @@ function TableID({ props }) {
       return [lat, lng];
     });
 
+
+
     // Almacenamiento de index(componente) + array de coordenadas -> localArray
-    const coordinatesArrayWithIndex = [index, ...coordinatesArray]; 
-    setLocalArray(coordinatesArrayWithIndex); // ej: [1, [0.0, 2.0], [2.0, 7.0]] (index y coordendas)
+    setLocalArray(coordinatesArray); // ej: [1, [0.0, 2.0], [2.0, 7.0]] (index y coordendas)
 
     // Envio periodico de localArray actualizado si hemos pulsado en el boton de coordendas
     if (buttonOn) { 
       props.eliminarDatos(index); //elimino el anterior array de valores de coordendas de este indice
-      props.enviarDatos(localArray); //vuelvo a enviar el array actualizado
+      props.enviarDatos(coordinatesArray, index); //vuelvo a enviar el array actualizado
     }
-  }, [messages, buttonOn]); // Se actualiza con cada nuevo mensaje del consumer messages_from_timestamp_out y si cambiamos el estado del boton
+
+
+  }, [messages, buttonOn]); // Se actualiza con cada nuevo mensaje del consumer messages_from_timestamp_out 
 
 
   // Se ejecuta si pulsamos el boton
   function handleClick() {
-    const indexExist = arraySubmits.some((elemento) => { // utilizo el arraySubmits (del componente padre) y verifico si ya existe el array localArray en arraySubmits
-      return elemento[0] === index;
-    })
-    if (indexExist) { //si existe el indice
+    if (index in arraySubmitsDic) { //si existe el indice
       setButtonOn(false); // quito el click
       props.eliminarDatos(index); //elimino el array de este componente en el array padre => arraySubmits
     } else {
       setButtonOn(true); // pongo el click
-      props.enviarDatos(localArray); // envio por primera vez el array del componenete al array padre arraySubmits
+      props.enviarDatos(localArray, index); // envio por primera vez el array del componenete al array padre arraySubmits
     }
   }
 
@@ -217,10 +219,9 @@ function TableID({ props }) {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
+        <button onClick={handleClick} disabled={!showPoints} >{buttonOn  ? `Ocultar coordenadas` : `Mostrar coordendas `}</button>
 
       </Paper>
-
-      <button onClick={handleClick}>{buttonOn ? 'Ocultar coordenadas' : 'Mostrar coordendas'}</button>
 
     </div>
   );
