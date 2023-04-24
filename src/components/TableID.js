@@ -48,7 +48,7 @@ const columns = [
 function TableID({ props }) {
 
   // props del componente padre (maprouteID)
-  const { index, messages, arraySubmitsDic, showPoints } = props;
+  const { index, messages, arraySubmitsDic, showPoints, colors } = props;
 
   const [localArray, setLocalArray] = useState([]); // Array de coordenadas
   const [buttonOn, setButtonOn] = useState(true); // estado que nos servirá para saber si hemos iniciado/apagado el botón => Se utilizará para envio actualizado de coordenadas del array al componente padre (MAPROUTEID)
@@ -139,7 +139,11 @@ function TableID({ props }) {
   return (
     <div>
       <Paper sx={{ minWidth: 500, float: 'left', width: '24%', marginLeft: '20px', marginTop: '20px' }}>
-        <p style={{ textAlign: 'center' }}>ID del evento: {parseMessage(messages[0]).id}</p>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <p style={{ marginLeft: '80px' }}>ID del evento: {parseMessage(messages[0]).id}</p>
+          <div style={{ borderTop: `3px solid ${colors[index]}`, marginRight: '80px', marginTop: '23px', width: '60px' }} />
+        </div>
+
         <p style={{ fontSize: 'x-small' }}><b>{messages.length > 0 ? `Fecha último evento: ${millisToDate(parseMessage(messages[0]).date_event)}` : ''}</b></p>
 
         <TableContainer sx={{ maxHeight: 440 }}>

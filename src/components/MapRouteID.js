@@ -38,6 +38,9 @@ function MapRouteID({ props }) {
 
   }, [messagesTimestamp]); // Se actualiza con cada nuevo mensaje del consumer messages_from_timestamp_out
 
+
+  const colors = ['red', 'purple', 'blue', 'green', 'black', 'yellow', 'grey', 'pink', 'brown', 'magenta']; // Conjunto de colores a utilizar
+
   // Visualizacion del mapa
   useEffect(() => {
 
@@ -94,7 +97,6 @@ function MapRouteID({ props }) {
       }
     }
 
-    const colors = ['red', 'purple', 'blue', 'green', 'black', 'yellow', 'grey', 'pink', 'brown', 'magenta']; // Conjunto de colores a utilizar
 
     if (showRoute && showPoints) {
       // Elimino las polineas existentes, util por si desactivo "Mostrar coordenas" en un array
@@ -114,7 +116,6 @@ function MapRouteID({ props }) {
         polyline.current = L.polyline(array, { // hago al polilinea
           color: color,
           weight: 3,
-          opacity: 0.5
         }).addTo(map.current);
 
 
@@ -186,7 +187,7 @@ function MapRouteID({ props }) {
       <h1 style={{ textAlign: "center" }}>Streaming de eventos filtrados por ID</h1>
       <div class="tablas" style={{ padding: "20px 0" }}>
         {messagesArray.map((array, index) => (
-          <TableID key={index} props={{ index: index, messages: array, arraySubmitsDic: arraySubmitsDic, showPoints: showPoints, enviarDatos: recibirDatos, eliminarDatos: eliminarDatos }} />
+          <TableID key={index} props={{ index: index, messages: array, arraySubmitsDic: arraySubmitsDic, showPoints: showPoints, colors: colors ,enviarDatos: recibirDatos, eliminarDatos: eliminarDatos }} />
         ))}
 
       </div>
