@@ -99,9 +99,6 @@ function TableID({ props }) {
     return `${day < 10 ? '0' + day : day}-${month < 10 ? '0' + month : month}-${year} ${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
   }
 
-  //messages es messages_timestamp pero para este componente
-
-
   useEffect(() => { //lectura de coordenadas a partir de los mensajes que me llegan del prop  
 
     // Construcción de coordenadas a partir del array
@@ -112,13 +109,11 @@ function TableID({ props }) {
       return [lat, lng];
     });
 
-
-
     // Almacenamiento de index(componente) + array de coordenadas -> localArray
-    setLocalArray(coordinatesArray); // ej: [1, [0.0, 2.0], [2.0, 7.0]] (index y coordendas)
+    setLocalArray(coordinatesArray); // ej: [[0.0, 2.0], [2.0, 7.0]] (index y coordendas)
 
     // Envio periodico de localArray actualizado si hemos pulsado en el boton de coordendas
-    if (buttonOn) { 
+    if (buttonOn) {
       props.eliminarDatos(index); //elimino el anterior array de valores de coordendas de este indice
       props.enviarDatos(coordinatesArray, index); //vuelvo a enviar el array actualizado
     }
@@ -219,7 +214,7 @@ function TableID({ props }) {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
-        <button onClick={handleClick} disabled={!showPoints} >{buttonOn  ? `Ocultar coordenadas` : `Mostrar coordendas `}</button>
+        <button onClick={handleClick} disabled={!showPoints} >{buttonOn ? `Ocultar coordenadas` : `Mostrar coordendas `}</button>
 
       </Paper>
 

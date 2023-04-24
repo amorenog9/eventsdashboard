@@ -15,9 +15,7 @@ function MapRouteID({ props }) {
   const [showRoute, setShowRoute] = useState(false); // para mostrar las polilineas
   const [showMarkers, setShowMarkers] = useState(false); // para mostrar los numeros encima de la coordenada
   const [showPoints, setShowPoints] = useState(true); // para mostrar los puntos (coordenadas) en el mapa
-
   const [messagesArray, setMessagesArray] = useState([]); // mensajes de los ids seleccionados en el dashboard (array de arrays donde cada array tiene dentro los mensajes referentes a cada ID)
-
   const [arraySubmitsDic, setArraySubmitsDic] = useState({}); // diccionario con los ids seleccionados {0: [0.0, 2.5], [...], 1: [0.0, 2.5], [...]}
 
 
@@ -40,8 +38,6 @@ function MapRouteID({ props }) {
 
   }, [messagesTimestamp]); // Se actualiza con cada nuevo mensaje del consumer messages_from_timestamp_out
 
-
-
   // Visualizacion del mapa
   useEffect(() => {
 
@@ -59,7 +55,6 @@ function MapRouteID({ props }) {
       }).addTo(map.current); // Agregamos al mapa la capa base
     }
 
-
     // Limpieza
     // Eliminar los marcadores (puntos en el mapa) anteriores
     map.current.eachLayer((layer) => {
@@ -68,7 +63,7 @@ function MapRouteID({ props }) {
       }
     });
 
-    if (showPoints) { 
+    if (showPoints) {
 
       for (let key in arraySubmitsDic) {
         const arrayCoordinatesID = arraySubmitsDic[key];
@@ -100,10 +95,8 @@ function MapRouteID({ props }) {
     }
 
     const colors = ['red', 'purple', 'blue', 'green', 'black', 'yellow', 'grey', 'pink', 'brown', 'magenta']; // Conjunto de colores a utilizar
-    const colorIndexMap = {}; // asignamos un color fijo a cada array dentro de arraySubmitsDict
-    let colorIndex = 0; // Se utilizara para entrar en colors[colorIndex] => dar nuevos colores a cada nuevo array
 
-    if (showRoute && showPoints) { 
+    if (showRoute && showPoints) {
       // Elimino las polineas existentes, util por si desactivo "Mostrar coordenas" en un array
       if (polyline.current) {
         map.current.eachLayer(function (layer) {
@@ -113,21 +106,18 @@ function MapRouteID({ props }) {
         });
       }
 
-      Object.values(arraySubmitsDic).forEach(array => {
+      Object.entries(arraySubmitsDic).forEach(([key, array]) => {
 
-        const lineCoords = array.map(coordenada => [coordenada[0], coordenada[1]]);
-        let color = colorIndexMap[array] || colors[colorIndex]; // aignamos un color a cada array (si ya existe, colorIndexMap) sino, el siguiente en colors
+        let color = colors[key % colors.length]; // a cada clave del diccionario le damos el mismo color (indice) del array colors. Si las claves del diccionario exceden a la longitud de colors, repetimos colores
 
-        if (!colorIndexMap[array]) {
-          colorIndexMap[array] = color; //asginamos en colorIndexMap el nuevo color para este array
-          colorIndex = (colorIndex + 1) % colors.length; // sumo 1 a colorIndex 
-        }
         // Creo una nueva polilinea
-        polyline.current = L.polyline(lineCoords, { // hago al polilinea
+        polyline.current = L.polyline(array, { // hago al polilinea
           color: color,
           weight: 3,
           opacity: 0.5
         }).addTo(map.current);
+
+
       });
     }
 
@@ -154,7 +144,7 @@ function MapRouteID({ props }) {
 
   const handleTogglePoints = () => {
     setShowPoints(!showPoints);
-    
+
   }
 
 
@@ -196,7 +186,7 @@ function MapRouteID({ props }) {
       <h1 style={{ textAlign: "center" }}>Streaming de eventos filtrados por ID</h1>
       <div class="tablas" style={{ padding: "20px 0" }}>
         {messagesArray.map((array, index) => (
-          <TableID key={index} props={{ index: index, messages: array, arraySubmitsDic: arraySubmitsDic, showPoints: showPoints , enviarDatos: recibirDatos, eliminarDatos: eliminarDatos }} />
+          <TableID key={index} props={{ index: index, messages: array, arraySubmitsDic: arraySubmitsDic, showPoints: showPoints, enviarDatos: recibirDatos, eliminarDatos: eliminarDatos }} />
         ))}
 
       </div>
