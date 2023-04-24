@@ -51,9 +51,10 @@ const columns = [
 ];
 
 
-function Home({ props }) {
+function Home(props) {
 
-  const { messages, messagesTimestamp } = props;
+  const messages = props.messages;
+  const messagesTimestamp  = props.messagesTimestamp
 
 
   //MUI

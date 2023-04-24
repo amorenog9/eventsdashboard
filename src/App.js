@@ -1,14 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link, useNavigate, Switch } from "react-router-dom";
 import { FiMenu, FiChevronDown } from "react-icons/fi";
 import Home from './components/Home'
 import MapRouteID from "./components/MapRouteID";
+
+
+import Navigationbar from './components/Navigationbar';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+
 
 function App() {
 
   // Kafka messages
   const [messages, setMessages] = useState([]); // messages_out_no_memory
   const [messagesTimestamp, setMessagesTimestamp] = useState([]); // messages_timestamp_out
+  const [name, as] = useState("aaa"); // messages_timestamp_out
 
   // Menu desplegable
   const [showMenu, setShowMenu] = useState(true);
@@ -42,31 +49,15 @@ function App() {
 
 
   return (
-    <Router>
-
-      <div>
-        <nav>
-          <div className="menu-icon" onClick={toggleMenu}>
-            {showMenu ? <FiChevronDown /> : <FiMenu />}
-          </div>
-          {showMenu && (
-            <ul className="menu show">
-              <li>
-                <Link to="/">Pagina Inicial</Link>
-              </li>
-              <li>
-                <Link to="/mapID">Localización con ID</Link>
-              </li>
-            </ul>
-          )}
-        </nav>
-
-        <Routes>
-          <Route exact path="/" element={<Home props={{ messages: messages, messagesTimestamp: messagesTimestamp }} />} />
-          <Route exact path="/mapID" element={<MapRouteID props={{ messagesTimestamp: messagesTimestamp }} />} />
-        </Routes>
-      </div>
-    </Router>
+    <div className="App">
+        <Router>
+            <Navigationbar />
+            <Switch>
+            <Route exact path='/' render={() => <Home messages={messages} messagesTimestamp= {messagesTimestamp}/>} />
+            <Route exact path='/mapID' render={() => <MapRouteID messagesTimestamp={messagesTimestamp} />} />
+            </Switch>
+        </Router>
+    </div>
   );
 }
 

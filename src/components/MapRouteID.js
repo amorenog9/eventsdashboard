@@ -5,8 +5,10 @@ import 'leaflet/dist/leaflet.css';
 import redIcon from '../images/gpsIcon.png'
 import TableID from './TableID';
 
-function MapRouteID({ props }) {
-  const { messagesTimestamp } = props;
+function MapRouteID(props) {
+
+  const messagesTimestamp  = props.messagesTimestamp;
+  
 
   const mapRef = useRef(null);
   const map = useRef(null);
