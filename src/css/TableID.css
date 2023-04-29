@@ -1,0 +1,23 @@
+.main{
+  margin-top: 20px;
+  margin-bottom: 20px;
+
+}
+
+.container{
+  display: flex;
+  justify-content: space-between;
+}
+
+.eventID{
+  margin-left: 10px; 
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.textDate{
+  text-align: left;
+  margin-left: 22px; 
+  font-size: 15px;
+  font-weight: bold;
+}

@@ -299,8 +299,8 @@ function Home(props) {
 
       <div>
         <Paper sx={{ minWidth: 500, float: 'left', width: '47%', marginLeft: '20px' }}>
-          <p style={{textAlign:'center' ,fontSize: '22px', fontWeight: 'bold', textDecoration: 'underline solid' }}>Eventos en streaming</p>
-          <p style={{ fontSize: 'x-small' }}><b>{messages.length > 0 ? `Fecha último evento: ${millisToDate(parseMessage(messages[0]).date_event)}` : ''}</b></p>
+          <p style={{textAlign:'center' ,fontSize: '25px', fontWeight: 'bold', textDecoration: 'underline solid' }}>Eventos en streaming</p>
+          <p class="textDate">{messages.length > 0 ? `Fecha último evento: ${millisToDate(parseMessage(messages[0]).date_event)}` : ''}</p>
 
           <TableContainer sx={{ maxHeight: 440 }}>
             <Table stickyHeader aria-label="sticky table">
@@ -380,8 +380,8 @@ function Home(props) {
 
       <div>
         <Paper sx={{ minWidth: 500, float: 'right', width: '47%', marginRight: '20px' }}>
-          <p  style={{textAlign:'center' ,fontSize: '22px', fontWeight: 'bold', textDecoration: 'underline solid' }}>Eventos a partir de fecha seleccionada</p>
-          <p style={{ fontSize: 'x-small' }}><b>{messagesTimestamp.length > 0 ? `Fecha último evento: ${millisToDate(parseMessage(messagesTimestamp[0]).date_event)}` : ''}</b></p>
+          <p  style={{textAlign:'center' ,fontSize: '25px', fontWeight: 'bold', textDecoration: 'underline solid' }}>Eventos a partir de fecha seleccionada</p>
+          <p class="textDate">{messagesTimestamp.length > 0 ? `Fecha último evento: ${millisToDate(parseMessage(messagesTimestamp[0]).date_event)}` : ''}</p>
           <TableContainer sx={{ maxHeight: 440 }}>
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
