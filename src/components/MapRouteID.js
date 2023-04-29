@@ -5,6 +5,9 @@ import 'leaflet/dist/leaflet.css';
 import redIcon from '../images/gpsIcon.png'
 import TableID from './TableID';
 
+import './../css/MapRouteID.css';
+
+
 function MapRouteID(props) {
 
   const messagesTimestamp  = props.messagesTimestamp;
@@ -175,18 +178,20 @@ function MapRouteID(props) {
 
   return (
     <div>
+      <h1 class="texts">Mapa con los eventos filtrados</h1>
+
       <div ref={mapRef} style={{ width: '100%', height: '500px' }} />
 
-      <button onClick={handleToggleRoute}>{showRoute ? 'Ocultar ruta Ids' : 'Mostrar ruta Ids'}</button>
-      <button onClick={handleToggleMarkers}>
+      <button class="buttons" onClick={handleToggleRoute}>{showRoute ? 'Ocultar ruta Ids' : 'Mostrar ruta Ids'}</button>
+      <button class="buttons" onClick={handleToggleMarkers}>
         {showMarkers ? 'Ocultar orden Ids' : 'Mostrar orden Ids'}
       </button>
 
-      <button onClick={handleTogglePoints}>
+      <button class="buttons" onClick={handleTogglePoints}>
         {showPoints ? 'Eliminar puntos Mapa' : 'Incluir puntos en mapa'}
       </button>
 
-      <h1 style={{ textAlign: "center" }}>Streaming de eventos filtrados por ID</h1>
+      <h1 class="texts">Streaming de eventos filtrados por ID</h1>
       <div class="tablas" style={{ padding: "20px 0" }}>
         {messagesArray.map((array, index) => (
           <TableID key={index} props={{ index: index, messages: array, arraySubmitsDic: arraySubmitsDic, showPoints: showPoints, colors: colors ,enviarDatos: recibirDatos, eliminarDatos: eliminarDatos }} />

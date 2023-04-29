@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import './Home.css';
+import './../css/Home.css';
 
 import DateTimePicker from 'react-datetime';
 import 'react-datetime/css/react-datetime.css';
@@ -17,6 +17,9 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
 import TablePagination from '@mui/material/TablePagination';
+
+import Button from 'react-bootstrap/Button';
+
 
 
 
@@ -54,7 +57,7 @@ const columns = [
 function Home(props) {
 
   const messages = props.messages;
-  const messagesTimestamp  = props.messagesTimestamp
+  const messagesTimestamp = props.messagesTimestamp
 
 
   //MUI
@@ -116,7 +119,7 @@ function Home(props) {
     let seconds = date.getSeconds();
     return `${day < 10 ? '0' + day : day}-${month < 10 ? '0' + month : month}-${year} ${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
   }
-  
+
   const [selectedDate, setSelectedDate] = useState(new Date());// Envio de la fecha
   const [buttonDisabled, setButtonDisabled] = useState(false);// Bloqueo del botón
   // Seleccion de numero de inputs
@@ -156,18 +159,21 @@ function Home(props) {
     const inputs = [];
     for (let i = 0; i < numIds; i++) {
       inputs.push(
-        <input type="text" key={i} onChange={(event) => handleTextChange(event, i)} />
+        <div>
+          <label style={{ textAlign: "left", fontWeight: 'bold', textDecoration: 'underline solid' }}>ID {i}: </label>
+          <input type="text" key={i} onChange={(event) => handleTextChange(event, i)} />
+        </div>
       );
     }
     return inputs;
   }
 
   // Limpieza de parametros introducidos por el usuario
-  const handleClean = () => {
-    setnumIds(0)
-    setTextInputs([])
-    setHasDuplicateValues(false);
-  }
+  // const handleClean = () => {
+  //   setnumIds(0)
+  //   setTextInputs([])
+  //   setHasDuplicateValues(false);
+  // }
 
 
   // Envio de datos utilizando el formulario
@@ -188,11 +194,7 @@ function Home(props) {
       return;
     }
 
-    // Habilitar el botón después de 30 segundos (util para la percepción de envío al usuario)
-    setButtonDisabled(true);
-    setTimeout(() => {
-      setButtonDisabled(false);
-    }, 30000);
+
 
     // Formateamos fecha y hora y listaIDS para el envío
     var date = new Date(selectedDate);
@@ -202,7 +204,31 @@ function Home(props) {
 
     var resultDate = formattedDate.split(',')[0];
     var resultDay = formattedDate.split(',')[1];
-    var listIds = textInputs;  
+    var listIds = textInputs;
+
+
+    // Pedir confirmación al usuario antes de enviar los datos
+    var promptText = '';
+
+    if(listIds.length === 0){
+      promptText = `Va a visualizar todos los eventos a partir de la fecha ${resultDate} con hora${resultDay} `;
+    }else{
+      promptText = `Va a visualizar los events a partir de la fecha ${resultDate} con hora${resultDay} para los siguientes ids: ${listIds}`;
+    }
+
+    const confirmed = window.confirm(promptText);
+    if (!confirmed) {
+      return;
+    }
+
+    // Habilitar el botón después de 30 segundos (util para la percepción de envío al usuario)
+    setButtonDisabled(true);
+    setTimeout(() => {
+      setButtonDisabled(false);
+    }, 30000);
+
+
+
 
     if (listIds.length === 0) {
       listIds = ["no-id"]
@@ -231,40 +257,49 @@ function Home(props) {
 
 
   return (
-    <div>
-      <h1 style={{ textAlign: "center" }}> Tablas stream kafka</h1>
+    <div style={{marginTop: '35px'}}>
 
-      <div>
-        <form onSubmit={handleSubmit}>
-          <label style={{ fontSize: 'small' }}>Selecciona la fecha a filtrar:</label>
-          <DateTimePicker
-            value={selectedDate}
-            onChange={setSelectedDate}
-          />
-          <label style={{ fontSize: 'small' }}>Número de ids que se van a filtrar:</label>
-          <br />
-          <label>
+      <h1 class="texts"> Parámetros de visualización</h1>
 
-            <input type="number" min="0" onChange={handleNumIds} />
-          </label>
 
-          <div>
-            {renderInputs()}
-            <button type="submit" disabled={hasDuplicateValues || buttonDisabled}>
-              {buttonDisabled ? 'Submitting...' : 'Submit'}
-            </button>
+      <form onSubmit={handleSubmit} >
+        <div class="container">
+          <div class='fecha'>
+            <label style={{ fontSize: '22px', fontWeight: 'bold', textDecoration: 'underline solid' }}> Fecha a filtrar:</label>
+            <DateTimePicker
+              value={selectedDate}
+              onChange={setSelectedDate}
+            />
           </div>
 
-        </form>
-      </div>
-      <button onClick={handleClean}>Limpiar</button>
+          <div class='ids'>
+            <label style={{ fontSize: '22px', fontWeight: 'bold', textDecoration: 'underline solid' }}>Número de IDs a filtrar:</label>
+            <label>
+              <input type="number" min="0" onChange={handleNumIds} />
+            </label>
+          </div>
 
+          <div class={renderInputs().length > 0 ? 'inputsIds' : ''}>
+            {renderInputs()}
+          </div>
+        </div>
+        <div>
+          <button class="buttonTouch" type="submit" disabled={hasDuplicateValues || buttonDisabled}>
+            {buttonDisabled ? 'Submitting...' : 'Submit'}
+          </button>
+        </div>
+
+      </form>
+
+
+
+      <h1 class="texts"> Tablas streaming kafka</h1>
 
 
 
       <div>
         <Paper sx={{ minWidth: 500, float: 'left', width: '47%', marginLeft: '20px' }}>
-          <p style={{ textAlign: 'center' }}>Eventos en streaming</p>
+          <p style={{textAlign:'center' ,fontSize: '22px', fontWeight: 'bold', textDecoration: 'underline solid' }}>Eventos en streaming</p>
           <p style={{ fontSize: 'x-small' }}><b>{messages.length > 0 ? `Fecha último evento: ${millisToDate(parseMessage(messages[0]).date_event)}` : ''}</b></p>
 
           <TableContainer sx={{ maxHeight: 440 }}>
@@ -345,7 +380,7 @@ function Home(props) {
 
       <div>
         <Paper sx={{ minWidth: 500, float: 'right', width: '47%', marginRight: '20px' }}>
-          <p style={{ textAlign: 'center' }}>Eventos a partir de fecha seleccionada</p>
+          <p  style={{textAlign:'center' ,fontSize: '22px', fontWeight: 'bold', textDecoration: 'underline solid' }}>Eventos a partir de fecha seleccionada</p>
           <p style={{ fontSize: 'x-small' }}><b>{messagesTimestamp.length > 0 ? `Fecha último evento: ${millisToDate(parseMessage(messagesTimestamp[0]).date_event)}` : ''}</b></p>
           <TableContainer sx={{ maxHeight: 440 }}>
             <Table stickyHeader aria-label="sticky table">

@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route, Link, useNavigate, Switch } fro
 import { FiMenu, FiChevronDown } from "react-icons/fi";
 import Home from './components/Home'
 import MapRouteID from "./components/MapRouteID";
+import UrlPage from "./components/UrlPage";
+
 
 
 import Navigationbar from './components/Navigationbar';
@@ -55,6 +57,7 @@ function App() {
             <Switch>
             <Route exact path='/' render={() => <Home messages={messages} messagesTimestamp= {messagesTimestamp}/>} />
             <Route exact path='/mapID' render={() => <MapRouteID messagesTimestamp={messagesTimestamp} />} />
+            <Route exact path='/urls' render={() => <UrlPage />} />
             </Switch>
         </Router>
     </div>
