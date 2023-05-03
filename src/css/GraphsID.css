@@ -58,3 +58,35 @@
 
 }
 
+
+.contenedor-graficas {
+  display: flex; /*Convertimos al menú en flexbox*/
+  justify-content: space-between; /*Con esto le indicamos que margine todos los items que se encuentra adentro hacia la derecha e izquierda*/
+  align-items: center; /*con esto alineamos de manera vertical*/
+}
+
+.grafico{
+  width: 59%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+  margin-left: 30px;
+
+}
+.grafico-pie{
+  width: 32%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+  margin-right: 210px;
+}

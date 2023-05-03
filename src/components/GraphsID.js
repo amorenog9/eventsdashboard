@@ -299,19 +299,49 @@ function GraphsID(props) {
     'rgba(255, 199, 64, 0.2)']
   // Inicializamos parametros iniciales para pintar el mapa por primera vez
   const options = {
+    plugins: {
+      legend: {
+        display: true,
+        labels: {
+          color: 'black',
+          font: {
+            size: 15
+          }
+        }
+      }
+    },
+
     scales: {
       y: {
         beginAtZero: true,
         title: {
           display: true,
           text: 'Número de eventos',
+          font: {
+            size: 20
+          }
         },
+        ticks: {
+          color: 'black',
+          font: {
+            size: 14
+          }
+        }
       },
       x: {
         title: {
           display: true,
           text: 'Hora del día',
+          font: {
+            size: 20
+          }
         },
+        ticks: {
+          color: 'black',
+          font: {
+            size: 20
+          }
+        }
       },
     },
   };
@@ -344,8 +374,17 @@ function GraphsID(props) {
 
   const options2 = {
     plugins: {
+      legend: {
+        display: true,
+        labels: {
+          color: 'black',
+          font: {
+            size: 18
+          }
+        }
+      },
       tooltip: {
-        callbacks: {
+        callbacks: { // añadir porcentajes
           label: function (context) {
             const label = context.label || "";
             const value = context.parsed || 0;
@@ -408,19 +447,49 @@ function GraphsID(props) {
 
 
     const optionsEvent = {
+      plugins: {
+        legend: {
+          display: true,
+          labels: {
+            color: 'black',
+            font: {
+              size: 18
+            }
+          }
+        }
+      },
+
       scales: {
         y: {
           beginAtZero: true,
           title: {
             display: true,
             text: 'Número de eventos',
+            font: {
+              size: 20
+            }
           },
+          ticks: {
+            color: 'black',
+            font: {
+              size: 14
+            }
+          }
         },
         x: {
           title: {
             display: true,
             text: textLabel,
+            font: {
+              size: 20
+            }
           },
+          ticks: {
+            color: 'black',
+            font: {
+              size: 20
+            }
+          }
         },
       },
     };
@@ -429,7 +498,7 @@ function GraphsID(props) {
     setOptionsMap(optionsEvent);
 
     const dataEvents2 = {
-      labels: hourLabelArray,
+      labels: labelArray,
       datasets: [
         {
           label: "Eventos",
@@ -443,6 +512,15 @@ function GraphsID(props) {
 
     const options2 = {
       plugins: {
+        legend: {
+          display: true,
+          labels: {
+            color: 'black',
+            font: {
+              size: 18
+            }
+          }
+        },
         tooltip: {
           callbacks: { // añadir porcentajes
             label: function (context) {
@@ -471,66 +549,66 @@ function GraphsID(props) {
     <div>
       <h1 class="texts">Parámetros de selección</h1>
 
-      <form  onSubmit={handleSubmit}>
-        <div class = "container">
+      <form onSubmit={handleSubmit}>
+        <div class="container">
           <div class="fecha">
-          <label style={{ fontWeight: 'bold', marginBottom: '15px'}}>Fecha a filtrar:</label>
-          <DatePicker
-            renderCustomHeader={({
-              date,
-              changeYear,
-              changeMonth,
-              decreaseMonth,
-              increaseMonth,
-              prevMonthButtonDisabled,
-              nextMonthButtonDisabled,
-            }) => (
-              <div
-                style={{
-                  margin: 10,
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                <button onClick={decreaseMonth} disabled={prevMonthButtonDisabled}>
-                  {"<"}
-                </button>
-                <select
-                  value={getYear(date)}
-                  onChange={({ target: { value } }) => changeYear(value)}
+            <label style={{ fontWeight: 'bold', marginBottom: '15px' }}>Fecha a filtrar:</label>
+            <DatePicker
+              renderCustomHeader={({
+                date,
+                changeYear,
+                changeMonth,
+                decreaseMonth,
+                increaseMonth,
+                prevMonthButtonDisabled,
+                nextMonthButtonDisabled,
+              }) => (
+                <div
+                  style={{
+                    margin: 10,
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
                 >
-                  {years.map((option) => (
-                    <option key={option} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </select>
+                  <button onClick={decreaseMonth} disabled={prevMonthButtonDisabled}>
+                    {"<"}
+                  </button>
+                  <select
+                    value={getYear(date)}
+                    onChange={({ target: { value } }) => changeYear(value)}
+                  >
+                    {years.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
 
-                <select
-                  value={months[getMonth(date)]}
-                  onChange={({ target: { value } }) =>
-                    changeMonth(months.indexOf(value))
-                  }
-                >
-                  {months.map((option) => (
-                    <option key={option} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </select>
+                  <select
+                    value={months[getMonth(date)]}
+                    onChange={({ target: { value } }) =>
+                      changeMonth(months.indexOf(value))
+                    }
+                  >
+                    {months.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
 
-                <button onClick={increaseMonth} disabled={nextMonthButtonDisabled}>
-                  {">"}
-                </button>
-              </div>
-            )}
-            selected={startDate}
-            onChange={(date) => setStartDate(date)}
-            dateFormat="dd/MM/yyyy"
+                  <button onClick={increaseMonth} disabled={nextMonthButtonDisabled}>
+                    {">"}
+                  </button>
+                </div>
+              )}
+              selected={startDate}
+              onChange={(date) => setStartDate(date)}
+              dateFormat="dd/MM/yyyy"
 
-          />
+            />
 
-        </div>
+          </div>
         </div>
 
         <div>
@@ -550,13 +628,15 @@ function GraphsID(props) {
         </button>
       </div>
 
-      <h1 class="texts">Gráfico lineal</h1>
-      <div >
-        <Line  data={data} options={optionsMap} />
-        <Pie  data={pieData} options={pieOptions} />
+      <h1 class="texts">Gráficos de los eventos seleccionados en el filtro</h1>
+      <div class="contenedor-graficas">
+        <div class="grafico" >
+          <Line data={data} options={optionsMap} />
+        </div>
+        <div class="grafico-pie">
+          <Pie data={pieData} options={pieOptions} />
+        </div>
       </div>
-      <h1 class="texts">Gráfico circular</h1>
-
     </div>
 
   );
