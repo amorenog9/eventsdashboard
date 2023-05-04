@@ -170,7 +170,7 @@ function GraphsID(props) {
 
   }
 
-  // Define una función recursiva para obtener la suma de los valores
+  // Sumar valores dentro del diccionario
   function sumValues(obj) {
     let sum = 0;
     for (let key in obj) {
@@ -196,7 +196,6 @@ function GraphsID(props) {
     }
   }
 
-  // Falta numero de eventos dentro
 
   function createDays(groupedEvents, year, month, day) {
     if (groupedEvents && groupedEvents[year] && groupedEvents[year][month]) { // si no hay diccionario año-mes-dia-hora, entonces devuelves un [0,0..., 0]
@@ -297,6 +296,7 @@ function GraphsID(props) {
     'rgba(255, 150, 64, 0.2)',
     'rgba(255, 170, 64, 0.2)',
     'rgba(255, 199, 64, 0.2)']
+    
   // Inicializamos parametros iniciales para pintar el mapa por primera vez
   const options = {
     plugins: {
@@ -308,9 +308,15 @@ function GraphsID(props) {
             size: 15
           }
         }
+      },
+      title: { 
+        display: true,
+        text: 'Gráfico lineal',
+        font: {
+          size: 20
+        }
       }
     },
-
     scales: {
       y: {
         beginAtZero: true,
@@ -374,6 +380,13 @@ function GraphsID(props) {
 
   const options2 = {
     plugins: {
+      title: {
+        display: true,
+        text: 'Gráfico Circular',
+        font: {
+          size: 20
+        }
+      },
       legend: {
         display: true,
         labels: {
@@ -393,6 +406,7 @@ function GraphsID(props) {
           },
         },
       },
+      
     },
   };
 
@@ -456,9 +470,15 @@ function GraphsID(props) {
               size: 18
             }
           }
+        },
+        title: {
+          display: true,
+          text: 'Gráfico lineal',
+          font: {
+            size: 20
+          }
         }
       },
-
       scales: {
         y: {
           beginAtZero: true,
@@ -487,7 +507,7 @@ function GraphsID(props) {
           ticks: {
             color: 'black',
             font: {
-              size: 20
+              size: 20,
             }
           }
         },
@@ -512,6 +532,13 @@ function GraphsID(props) {
 
     const options2 = {
       plugins: {
+        title: { 
+          display: true,
+          text: 'Gráfico Circular',
+          font: {
+            size: 20
+          }
+        },
         legend: {
           display: true,
           labels: {

@@ -18,7 +18,6 @@ import Paper from '@mui/material/Paper';
 
 import TablePagination from '@mui/material/TablePagination';
 
-import Button from 'react-bootstrap/Button';
 
 
 
@@ -298,7 +297,7 @@ function Home(props) {
 
 
       <div>
-        <Paper sx={{ minWidth: 500, float: 'left', width: '47%', marginLeft: '20px' }}>
+        <Paper sx={{ minWidth: 500, float: 'left', width: '47%', marginLeft: '20px', marginTop: '40px' }}>
           <p style={{textAlign:'center' ,fontSize: '25px', fontWeight: 'bold', textDecoration: 'underline solid' }}>Eventos en streaming</p>
           <p class="textDate">{messages.length > 0 ? `Fecha último evento: ${millisToDate(parseMessage(messages[0]).date_event)}` : ''}</p>
 
@@ -309,28 +308,32 @@ function Home(props) {
                   <TableCell
                     key="sticky-header"
                     align="center"
-                    style={{ position: 'sticky', left: '0', zIndex: 1, backgroundColor: '#fff', minWidth: 50 }}
-                  >
+                    style={{ position: 'sticky', top: '0', backgroundColor: '#fff', fontSize: '18px',
+                    fontWeight: 'bold'}}                  
+                    >
                     ID
                   </TableCell>
                   <TableCell
                     key="header-1"
                     align="center"
-                    style={{ position: 'sticky', top: '0', backgroundColor: '#fff' }}
-                  >
+                    style={{ position: 'sticky', top: '0', backgroundColor: '#fff', fontSize: '18px',
+                    fontWeight: 'bold'}}                  
+                    >
                     Tipo
                   </TableCell>
                   <TableCell
                     key="header-2"
                     align="center"
-                    style={{ position: 'sticky', top: '0', backgroundColor: '#fff' }}
+                    style={{ position: 'sticky', top: '0', backgroundColor: '#fff', fontSize: '18px',
+                    fontWeight: 'bold'}}
                   >
                     Fecha
                   </TableCell>
                   <TableCell
                     key="header-3"
                     align="center"
-                    style={{ position: 'sticky', top: '0', backgroundColor: '#fff' }}
+                    style={{ position: 'sticky', top: '0', backgroundColor: '#fff', fontSize: '18px',
+                    fontWeight: 'bold'}}   
                   >
                     Localización
                   </TableCell>
@@ -348,16 +351,16 @@ function Home(props) {
               <TableBody>
                 {messages.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => (
                   <StyledTableRow hover role="checkbox" tabIndex={-1} key={index}>
-                    <StyledTableCell align="right" style={{ backgroundColor: '#fff' }}>
+                    <StyledTableCell align="right" style={{ backgroundColor: '#fff', fontSize: '16px'  }}>
                       {parseMessage(item)['id']}
                     </StyledTableCell>
-                    <StyledTableCell align="right" style={{ backgroundColor: '#fff' }}>
+                    <StyledTableCell align="right" style={{ backgroundColor: '#fff', fontSize: '16px' }}>
                       {parseMessage(item)['event_type']}
                     </StyledTableCell>
-                    <StyledTableCell align="right" style={{ backgroundColor: '#fff' }}>
+                    <StyledTableCell align="right" style={{ backgroundColor: '#fff', fontSize: '16px' }}>
                       {millisToDate(parseMessage(item)['date_event'])}
                     </StyledTableCell>
-                    <StyledTableCell align="right" style={{ backgroundColor: '#fff' }}>
+                    <StyledTableCell align="right" style={{ backgroundColor: '#fff', fontSize: '16px' }}>
                       {parseMessage(item)['location']}
                     </StyledTableCell>
                   </StyledTableRow>
@@ -379,8 +382,8 @@ function Home(props) {
       </div>
 
       <div>
-        <Paper sx={{ minWidth: 500, float: 'right', width: '47%', marginRight: '20px' }}>
-          <p  style={{textAlign:'center' ,fontSize: '25px', fontWeight: 'bold', textDecoration: 'underline solid' }}>Eventos a partir de fecha seleccionada</p>
+        <Paper sx={{ minWidth: 500, float: 'right', width: '47%', marginRight: '20px', marginTop: '40px' }}>
+          <p  style={{textAlign:'center' ,fontSize: '25px', fontWeight: 'bold', textDecoration: 'underline solid' }}>Eventos filtrados por ID a partir de fecha seleccionada</p>
           <p class="textDate">{messagesTimestamp.length > 0 ? `Fecha último evento: ${millisToDate(parseMessage(messagesTimestamp[0]).date_event)}` : ''}</p>
           <TableContainer sx={{ maxHeight: 440 }}>
             <Table stickyHeader aria-label="sticky table">
@@ -389,37 +392,41 @@ function Home(props) {
                   <TableCell
                     key="sticky-header"
                     align="center"
-                    style={{ position: 'sticky', left: '0', zIndex: 1, backgroundColor: '#fff', minWidth: 50 }}
-                  >
+                    style={{ position: 'sticky', top: '0', backgroundColor: '#fff', fontSize: '18px',
+                    fontWeight: 'bold'}}                   >
                     ID
                   </TableCell>
                   <TableCell
                     key="header-1"
                     align="center"
-                    style={{ position: 'sticky', top: '0', backgroundColor: '#fff' }}
-                  >
+                    style={{ position: 'sticky', top: '0', backgroundColor: '#fff', fontSize: '18px',
+                    fontWeight: 'bold'}}                    
+                    >
                     Tipo
                   </TableCell>
                   <TableCell
                     key="header-2"
                     align="center"
-                    style={{ position: 'sticky', top: '0', backgroundColor: '#fff' }}
-                  >
+                    style={{ position: 'sticky', top: '0', backgroundColor: '#fff', fontSize: '18px',
+                    fontWeight: 'bold'}}                    
+                    >
                     Fecha
                   </TableCell>
                   <TableCell
                     key="header-3"
                     align="center"
-                    style={{ position: 'sticky', top: '0', backgroundColor: '#fff' }}
-                  >
+                    style={{ position: 'sticky', top: '0', backgroundColor: '#fff', fontSize: '18px',
+                    fontWeight: 'bold'}}                   
+                    >
                     Localización
                   </TableCell>
                   {columns.slice(4).map((column) => (
                     <TableCell
                       key={column.id}
                       align={column.align}
-                      style={{ minWidth: column.minWidth, position: 'sticky', top: '0', backgroundColor: '#fff' }}
-                    >
+                      style={{ position: 'sticky', top: '0', backgroundColor: '#fff', fontSize: '18px',
+                      fontWeight: 'bold'}}                      
+                      >
                       {column.label}
                     </TableCell>
                   ))}
@@ -428,17 +435,17 @@ function Home(props) {
               <TableBody>
                 {messagesTimestamp.slice(page2 * rowsPerPage2, page2 * rowsPerPage2 + rowsPerPage2).map((item, index) => (
                   <StyledTableRow hover role="checkbox" tabIndex={-1} key={index}>
-                    <StyledTableCell align="right" style={{ backgroundColor: '#fff' }}>
+                    <StyledTableCell align="right" style={{ backgroundColor: '#fff' , fontSize: '16px'}}>
 
                       {parseMessage(item)['id']}
                     </StyledTableCell>
-                    <StyledTableCell align="right" style={{ backgroundColor: '#fff' }}>
+                    <StyledTableCell align="right" style={{ backgroundColor: '#fff', fontSize: '16px'}}>
                       {parseMessage(item)['event_type']}
                     </StyledTableCell>
-                    <StyledTableCell align="right" style={{ backgroundColor: '#fff' }}>
+                    <StyledTableCell align="right" style={{ backgroundColor: '#fff', fontSize: '16px' }}>
                       {millisToDate(parseMessage(item)['date_event'])}
                     </StyledTableCell>
-                    <StyledTableCell align="right" style={{ backgroundColor: '#fff' }}>
+                    <StyledTableCell align="right" style={{ backgroundColor: '#fff', fontSize: '16px' }}>
                       {parseMessage(item)['location']}
                     </StyledTableCell>
                   </StyledTableRow>

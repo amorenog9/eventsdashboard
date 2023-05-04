@@ -149,44 +149,49 @@ function TableID({ props }) {
 
         <p class="textDate">{messages.length > 0 ? `Fecha último evento: ${millisToDate(parseMessage(messages[0]).date_event)}` : ''}</p>
 
-        <TableContainer sx={{ maxHeight: 440 }}>
-          <Table stickyHeader aria-label="sticky table">
+        <TableContainer sx={{ maxHeight: 400, minHeight: 400}}>
+          <Table stickyHeader aria-label="sticky table" sx={{ maxHeight: 440}}>
             <TableHead>
               <TableRow>
                 <TableCell
                   key="sticky-header"
                   align="center"
-                  style={{ position: 'sticky', left: '0', zIndex: 1, backgroundColor: '#fff', minWidth: 50 }}
-                >
+                  style={{ position: 'sticky', top: '0', backgroundColor: '#fff', fontSize: '18px',
+                  fontWeight: 'bold'}}                
+                  >
                   Orden
                 </TableCell>
                 <TableCell
                   key="header-1"
                   align="center"
-                  style={{ position: 'sticky', top: '0', backgroundColor: '#fff' }}
-                >
+                  style={{ position: 'sticky', top: '0', backgroundColor: '#fff', fontSize: '18px',
+                  fontWeight: 'bold'}}               
+                   >
                   Tipo
                 </TableCell>
                 <TableCell
                   key="header-2"
                   align="center"
-                  style={{ position: 'sticky', top: '0', backgroundColor: '#fff' }}
-                >
+                    style={{ position: 'sticky', top: '0', backgroundColor: '#fff', fontSize: '18px',
+                    fontWeight: 'bold'}}                
+                    >
                   Fecha
                 </TableCell>
                 <TableCell
                   key="header-3"
                   align="center"
-                  style={{ position: 'sticky', top: '0', backgroundColor: '#fff' }}
-                >
+                  style={{ position: 'sticky', top: '0', backgroundColor: '#fff', fontSize: '18px',
+                  fontWeight: 'bold'}}               
+                   >
                   Localización
                 </TableCell>
                 {columns.slice(4).map((column) => (
                   <TableCell
                     key={column.id}
                     align={column.align}
-                    style={{ minWidth: column.minWidth, position: 'sticky', top: '0', backgroundColor: '#fff' }}
-                  >
+                    style={{ position: 'sticky', top: '0', backgroundColor: '#fff', fontSize: '18px',
+                    fontWeight: 'bold'}}
+                                      >
                     {column.label}
                   </TableCell>
                 ))}
@@ -195,16 +200,16 @@ function TableID({ props }) {
             <TableBody>
               {messages.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => (
                 <StyledTableRow hover role="checkbox" tabIndex={-1} key={index}>
-                  <StyledTableCell align="right" style={{ backgroundColor: '#fff' }}>
+                  <StyledTableCell align="right" style={{ backgroundColor: '#fff', fontSize: '16px'}}>
                     {messages.length - index}
                   </StyledTableCell>
-                  <StyledTableCell align="right" style={{ backgroundColor: '#fff' }}>
+                  <StyledTableCell align="right" style={{ backgroundColor: '#fff', fontSize: '16px'}}>
                     {parseMessage(item)['event_type']}
                   </StyledTableCell>
-                  <StyledTableCell align="right" style={{ backgroundColor: '#fff' }}>
+                  <StyledTableCell align="right" style={{ backgroundColor: '#fff', fontSize: '16px'}}>
                     {millisToDate(parseMessage(item)['date_event'])}
                   </StyledTableCell>
-                  <StyledTableCell align="right" style={{ backgroundColor: '#fff' }}>
+                  <StyledTableCell align="right" style={{ backgroundColor: '#fff', fontSize: '16px'}}>
                     {parseMessage(item)['location']}
                   </StyledTableCell>
                 </StyledTableRow>
@@ -221,7 +226,7 @@ function TableID({ props }) {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
-        <button onClick={handleClick} disabled={!showPoints} >{buttonOn ? `Ocultar coordenadas` : `Mostrar coordendas `}</button>
+        <button class= "buttonTouchID" onClick={handleClick} disabled={!showPoints} >{buttonOn ? `Ocultar coordenadas` : `Mostrar coordendas `}</button>
 
       </Paper>
 

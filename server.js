@@ -36,9 +36,15 @@ let consumerTimestamp = new Consumer(
 
 
 
-const consumer = new Consumer(client2, [{ topic: 'messages_out_no_memory', partition: 0, offset: 0 }], {
-  autoCommit: true
-});
+var consumer = new Consumer(
+  client2,
+  [
+    { topic: 'messages_out_no_memory', partition: 0, offset: 0}
+  ],
+  {
+    fromOffset: true
+  }
+);
 
 
 let counterExecutions = 0; // cuenta el numero de veces que el usuario busca por un timestamp. Se utiliza para ejecutar kill $sparkTimestamp sin que provoque errores
