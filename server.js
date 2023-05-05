@@ -111,7 +111,7 @@ app.post('/run-scala-code', (req, res) => {
   const { resultDate, resultDay, listIds } = req.body;
   console.log(resultDate, resultDay, listIds);
 
-  const routeScript = `/app/eventsdashboard/scripts`;
+  //const routeScript = `/app/eventsdashboard/scripts`;
   //const routeLibrary = `/app/streamingProject/bibliotecas_jars`;
   //const routeToJar = `/app/streamingProject/target/scala-2.11`;
   var resultDateModified = resultDate.replace(/\//g, '-');// facilitamos el envio del parametro ens la ruta con - en vez de /
@@ -129,7 +129,7 @@ app.post('/run-scala-code', (req, res) => {
 
     try {
       console.log(args.join(' '));
-      const resultScript = execSync(`cd ${routeScript} && ./script.sh`).toString(); //tomamos PID y eliminamos proceso spark-submit previo
+      //const resultScript = execSync(`cd ${routeScript} && ./script.sh`).toString(); //tomamos PID y eliminamos proceso spark-submit previo
 
       // Ejecucion de manera asincrona 
       const result = exec(`${commandExec}`).toString();
