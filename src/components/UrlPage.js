@@ -10,7 +10,7 @@ function UrlPage(props) {
       <div class="flink">
         <img src={flink_logo} alt="Flink" />
         <div class="link_flink">
-          <a href="http://localhost:8081/">Cluster para visualizar los jobs de flink</a>
+          <a href="http://localhost:7080/">Cluster para visualizar los jobs de flink</a>
         </div>
       </div>
       <div class="spark">
