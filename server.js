@@ -118,7 +118,7 @@ app.post('/run-scala-code', (req, res) => {
   var resultDayModified = resultDay.trim()
 
   const args = [resultDay, resultDate, listIds];
-  const commandExec = `curl http://localhost:5006/spark-submit/${resultDayModified}/${resultDateModified}/${listIds}`;
+  const commandExec = `curl http://sparkreader:5006/spark-submit/${resultDayModified}/${resultDateModified}/${listIds}`;
 
 
   console.log(commandExec);

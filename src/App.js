@@ -22,8 +22,8 @@ function App() {
   // Lectura periodica (cada 1s) de mensajes de servidor node (kafka)
   useEffect(() => {
     const fetchMessages = async () => {
-      const response = await fetch('http://localhost:3001/messages');
-      const responseTimestamp = await fetch('http://localhost:3001/messages-timestamp');
+      const response = await fetch('http://nodeserver:3001/messages');
+      const responseTimestamp = await fetch('http://nodeserver:3001/messages-timestamp');
       const messages = await response.json(); 
       const messagesTimestamp = await responseTimestamp.json(); 
 

@@ -239,7 +239,7 @@ function Home(props) {
 
     // Envio de los datos del dashboard mediante la url especificada al servidor node
     try {
-      const response = await fetch('http://localhost:3001/run-scala-code', {
+      const response = await fetch('http://nodeserver:3001/run-scala-code', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
