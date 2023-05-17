@@ -14,7 +14,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 function App() {
-
   // Kafka messages
   const [messages, setMessages] = useState([]); // messages_out_no_memory
   const [messagesTimestamp, setMessagesTimestamp] = useState([]); // messages_timestamp_out
@@ -22,8 +21,8 @@ function App() {
   // Lectura periodica (cada 1s) de mensajes de servidor node (kafka)
   useEffect(() => {
     const fetchMessages = async () => {
-      const response = await fetch('http://nodeserver:3001/messages');
-      const responseTimestamp = await fetch('http://nodeserver:3001/messages-timestamp');
+      const response = await fetch('http://192.168.64.10:3001/messages');
+      const responseTimestamp = await fetch('http://192.168.64.10:3001/messages-timestamp');
       const messages = await response.json(); 
       const messagesTimestamp = await responseTimestamp.json(); 
 

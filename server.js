@@ -56,7 +56,7 @@ function createNewConsumer() {
   setTimeout(() => {
     messagesTimestamp = [];
     consumerTimestamp.close();
-    client = new kafka.KafkaClient();
+    client = new kafka.KafkaClient({kafkaHost: 'kafka:9092'});
     consumerTimestamp = new Consumer(
       client,
       [{ topic: 'messages_from_timestamp_out', partition: 0, offset: 0 }], // topic, partition y offset
@@ -92,11 +92,14 @@ consumer.on('message', message => {
 
 
 app.get('/messages', (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', '*'); // Agregar encabezado CORS
   res.send(messages); //envio el array (string) completo a quien me lo pida con fetch
+  console.log(messages);
 });
 
 
 app.get('/messages-timestamp', (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', '*'); // Agregar encabezado CORS
   res.send(messagesTimestamp);
 });
 
