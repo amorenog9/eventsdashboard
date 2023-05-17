@@ -94,7 +94,6 @@ consumer.on('message', message => {
 app.get('/messages', (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*'); // Agregar encabezado CORS
   res.send(messages); //envio el array (string) completo a quien me lo pida con fetch
-  console.log(messages);
 });
 
 
