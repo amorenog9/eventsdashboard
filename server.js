@@ -21,11 +21,11 @@ let newMessageTimestamp = '';
 let messagesTimestamp = [];
 
 const Consumer = kafka.Consumer;
-let client = new kafka.KafkaClient();
+let client = new kafka.KafkaClient({kafkaHost: 'kafka:9092'});
 //client.setMaxListeners(100000); // Establecer límite de escuchadores, CUIDADO FUGAS DE MEMORIA
 
 
-const client2 = new kafka.KafkaClient();
+const client2 = new kafka.KafkaClient({kafkaHost: 'kafka:9092'});
 
 
 let consumerTimestamp = new Consumer(
