@@ -199,13 +199,6 @@ function MapRouteID(props) {
 
       </div>
 
-      <h3>Numero de claves: {Object.keys(arraySubmitsDic).length}</h3>
-      {Object.keys(arraySubmitsDic).map((key, i) => (
-        <p key={i}>
-          {key}: {lengths[i]}
-        </p>
-      ))}
-
     </div>
 
   );
